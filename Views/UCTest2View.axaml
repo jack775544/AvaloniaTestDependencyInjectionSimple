@@ -7,6 +7,10 @@
 			 x:DataType="vm:UCTest2ViewModel"
              x:Class="Test_DependencyInjection.Views.UCTest2View">
 
+	<!--<UserControl.DataContext>
+		<vm:UCTest2ViewModel/>
+	</UserControl.DataContext>-->
+	
 	<Design.DataContext>
 		<vm:UCTest2ViewModel/>
 	</Design.DataContext>

@@ -1,50 +1,33 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using Test_DependencyInjection.ViewModels;
-using Test_DependencyInjection.Views;
-
 
 namespace Test_DependencyInjection
 {
-
     public class ViewLocator : IDataTemplate
     {
-        private readonly Dictionary<Type, Func<Control?>> _locator = new();
-
-        public ViewLocator()
-        {
-            RegisterViewFactory<MainWindowViewModel, MainWindow>();
-            RegisterViewFactory<TestDIViewModel, TestDI>();
-        }
-
-        public Control Build(object? data)
+        public Control? Build(object? data)
         {
             if (data is null)
+                return null;
+
+            var name = data.GetType().FullName!.Replace("ViewModel", "", StringComparison.Ordinal);
+            var type = Type.GetType(name);
+
+            if (type != null)
             {
-                return new TextBlock { Text = "No VM provided" };
+                var control = (Control)Activator.CreateInstance(type)!;
+                control.DataContext = data;
+                return control;
             }
 
-            _locator.TryGetValue(data.GetType(), out var factory);
-
-            return factory?.Invoke() ?? new TextBlock { Text = $"VM Not Registered: {data.GetType()}" };
+            return new TextBlock { Text = "Not Found: " + name };
         }
 
         public bool Match(object? data)
         {
-            return data is ObservableObject;
+            return data is ViewModelBase;
         }
-
-        private void RegisterViewFactory<TViewModel, TView>()
-            where TViewModel : class
-            where TView : Control
-            => _locator.Add(
-                typeof(TViewModel),
-                Design.IsDesignMode
-                    ? Activator.CreateInstance<TView>
-                    : Ioc.Default.GetService<TView>);
     }
 }

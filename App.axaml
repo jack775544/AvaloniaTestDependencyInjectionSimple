@@ -4,7 +4,11 @@
              xmlns:local="using:Test_DependencyInjection"
              RequestedThemeVariant="Dark">
 
-    <Application.DataTemplates>
+    <!--<Application.DataTemplates>
+        <local:ViewLocatorCustom/>
+    </Application.DataTemplates>-->  
+	
+	<Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
   

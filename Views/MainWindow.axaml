@@ -17,7 +17,8 @@
     </Design.DataContext>
 
 	<Grid>
-		<view:TestDI></view:TestDI>
+		<!--<view:TestDI></view:TestDI>-->
+		<view:UCTest2View/>
 	</Grid>
 
 </Window>

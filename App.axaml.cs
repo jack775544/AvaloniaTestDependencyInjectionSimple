@@ -19,9 +19,28 @@ namespace Test_DependencyInjection
             AvaloniaXamlLoader.Load(this);
         }
 
-        public override void OnFrameworkInitializationCompleted()
+
+        void ConfigureDependencyInjection()
         {
-            var locator = new ViewLocator();
+            //services
+            var services = new ServiceCollection();
+            //services.AddTransient<IAPIService, APIService>();
+
+            //views
+            services.AddSingleton(typeof(MainWindow));
+            services.AddTransient(typeof(TestDIViewModel));
+
+            //view models
+            services.AddSingleton(typeof(MainWindowViewModel));
+            services.AddTransient(typeof(TestDI));
+
+            Ioc.Default.ConfigureServices(services.BuildServiceProvider());
+        }
+
+
+        private void CustomLocatorStartup()
+        {
+            var locator = new ViewLocatorCustom();
             DataTemplates.Add(locator);
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
@@ -39,10 +58,52 @@ namespace Test_DependencyInjection
 
                 desktop.MainWindow = view;
             }
+        }
+        private void CustomDIStartupNoLocator()
+        {
+            ConfigureDependencyInjection();
+
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {               
+                desktop.MainWindow = new MainWindow
+                {
+                    DataContext = new MainWindowViewModel(),
+                };
+            }
+        }
+
+
+        private void CustomDIOriginalLocator()
+        {           
+
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                desktop.MainWindow = new MainWindow
+                {
+                    DataContext = new MainWindowViewModel(),
+                };
+            }
+        }
+
+        public override void OnFrameworkInitializationCompleted()
+        {
+
+            ///In All cases check App.axaml.cs
+
+            //Custom locator DI
+            //CustomLocatorStartup();
+
+            //Custom DI without locator at all
+            //CustomDIStartupNoLocator();
+
+            //Custom DI with original locator
+            CustomDIOriginalLocator();
 
             base.OnFrameworkInitializationCompleted();
         }
 
+
+        //Enable this only with custom locator
         [Singleton(typeof(MainWindowViewModel))]
         [Transient(typeof(TestDIViewModel))]
         internal static partial void ConfigureViewModels(IServiceCollection services);

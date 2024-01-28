@@ -4,18 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 xmlns:vm="using:Test_DependencyInjection.ViewModels"
-			 x:DataType="vm:TestDIViewModel"
-             x:Class="Test_DependencyInjection.Views.TestDI">
+			 x:DataType="vm:UCTest2ViewModel"
+             x:Class="Test_DependencyInjection.Views.UCTest2View">
 
-	<!--<UserControl.DataContext>
-		<vm:TestDIViewModel/>
-	</UserControl.DataContext>-->
-	
 	<Design.DataContext>
-		<vm:TestDIViewModel/>
+		<vm:UCTest2ViewModel/>
 	</Design.DataContext>
-	
-	<Grid MaxHeight="250" HorizontalAlignment="Center" MinWidth="500" Margin="10">
+
+	<Grid MaxHeight="250" HorizontalAlignment="Center" VerticalAlignment="Stretch" MinWidth="500" Margin="10">
 		<TextBox Watermark="Text goes here" Text="{Binding TextCompile, Mode=TwoWay}"></TextBox>
 		<Button Command="{Binding ApplyDataCommand}">Clear Text..</Button>
 		<TextBlock HorizontalAlignment="Center" Text="{Binding TextCompile}"></TextBlock>

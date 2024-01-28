@@ -6,21 +6,22 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Test_DependencyInjection.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-		xmlns:view="using:Test_DependencyInjection.Views"
+        xmlns:testDependencyInjection="clr-namespace:Test_DependencyInjection"
         Icon="/Assets/avalonia-logo.ico"
         Title="Test_DependencyInjection">
 
-	<Design.DataContext>
-		<!-- This only sets the DataContext for the previewer in an IDE,
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-		<vm:MainWindowViewModel/>
-	</Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
 
-	<Grid>
-		<ContentControl>
-			<!--<view:TestDI></view:TestDI>-->
-			<view:UCTest2View/>
-		</ContentControl>
-	</Grid>
+    <Grid>
+        <ContentControl Content="{Binding UcTest2ViewModel}">
+            <ContentControl.ContentTemplate>
+                <testDependencyInjection:ViewLocator />
+            </ContentControl.ContentTemplate>
+        </ContentControl>
+    </Grid>
 
 </Window>

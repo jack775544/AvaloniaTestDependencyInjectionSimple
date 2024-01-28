@@ -16,7 +16,7 @@ namespace Test_DependencyInjection.ViewModels
         [RelayCommand]
         private void ApplyData()
         {
-            textCompile = "CLEARED";
+            TextCompile = "CLEARED";
         }
 
 

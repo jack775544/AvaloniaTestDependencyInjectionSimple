@@ -1,9 +1,7 @@
 ﻿namespace Test_DependencyInjection.ViewModels
 {
-    public partial class MainWindowViewModel : ViewModelBase
+    public partial class MainWindowViewModel(UCTest2ViewModel ucTest2ViewModel) : ViewModelBase
     {
-#pragma warning disable CA1822 // Mark members as static
-        public string Greeting => "Welcome to Avalonia!";
-#pragma warning restore CA1822 // Mark members as static
+        public UCTest2ViewModel UcTest2ViewModel { get; } = ucTest2ViewModel;
     }
 }
